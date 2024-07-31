@@ -5,6 +5,11 @@
     "description": "API de Autentica&ccedil;&atilde;o do Banco Semear.",
     "version": "1.0"
   },
+  "servers": [
+    {
+      "url": "https://api.semear.com.br"
+    }
+  ],
   "paths": {
     "/v1/public/redoc/tests": {
       "get": {
