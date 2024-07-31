@@ -1,0 +1,1377 @@
+{
+  "openapi": "3.0.1",
+  "info": {
+    "title": "Semear Authentication",
+    "description": "API de Autentica&ccedil;&atilde;o do Banco Semear.",
+    "version": "1.0"
+  },
+  "paths": {
+    "/v1/public/authentications/encryption-tokens": {
+      "get": {
+        "tags": [
+          "Autenticação"
+        ],
+        "summary": "Endpoint para pegar os tokens de criptografia da Senha e do Documento (3º endpoint)",
+        "description": "Este endpoint permite pegar os tokens para criptografar a senha e o documento no payloado do login.",
+        "parameters": [
+          {
+            "name": "Authorization",
+            "in": "header",
+            "description": "Bearer token. (Example: \"Authorization: Bearer {token}\")",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "client_id",
+            "in": "header",
+            "description": "ClientId do cliente BaaS.",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "access_token",
+            "in": "header",
+            "description": "AccessToken gerado.",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Sucesso",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/EncryptionTokensResponse"
+                }
+              },
+              "application/jwe": {
+                "schema": {
+                  "$ref": "#/components/schemas/EncryptionTokensResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Requisição Ruim",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/ErrorResponse"
+                  }
+                }
+              },
+              "application/jwe": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/ErrorResponse"
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Erro Inesperado",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              },
+              "application/jwe": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/public/authentications/maps": {
+      "get": {
+        "tags": [
+          "Autenticação"
+        ],
+        "summary": "Endpoint para pegar o mapa da senha (2º endpoint)",
+        "description": "Este endpoint permite pegar o mapa da senha de autenticação.",
+        "parameters": [
+          {
+            "name": "Authorization",
+            "in": "header",
+            "description": "Bearer token. (Example: \"Authorization: Bearer {token}\")",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "client_id",
+            "in": "header",
+            "description": "ClientId do cliente BaaS.",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "access_token",
+            "in": "header",
+            "description": "AccessToken gerado.",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Sucesso",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PasswordMapResponse"
+                }
+              },
+              "application/jwe": {
+                "schema": {
+                  "$ref": "#/components/schemas/PasswordMapResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Requisição Ruim",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/ErrorResponse"
+                  }
+                }
+              },
+              "application/jwe": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/ErrorResponse"
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Erro Inesperado",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              },
+              "application/jwe": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/public/authentications/baas": {
+      "post": {
+        "tags": [
+          "Autenticação"
+        ],
+        "summary": "Endpoint para fazer login BaaS (4º endpoint)",
+        "description": "Este endpoint permite se logar na conta.",
+        "parameters": [
+          {
+            "name": "Authorization",
+            "in": "header",
+            "description": "Bearer token. (Example: \"Authorization: Bearer {token}\")",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "client_id",
+            "in": "header",
+            "description": "ClientId do cliente BaaS.",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "access_token",
+            "in": "header",
+            "description": "AccessToken gerado.",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "description": "",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/BaaSLoginCommand"
+              }
+            },
+            "application/jwe": {
+              "schema": {
+                "$ref": "#/components/schemas/BaaSLoginCommand"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Sucesso",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/LoginResponse"
+                }
+              },
+              "application/jwe": {
+                "schema": {
+                  "$ref": "#/components/schemas/LoginResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Requisição Ruim",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/ErrorResponse"
+                  }
+                }
+              },
+              "application/jwe": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/ErrorResponse"
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Erro Inesperado",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              },
+              "application/jwe": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/public/authentications/logouts": {
+      "post": {
+        "tags": [
+          "Autenticação"
+        ],
+        "summary": "Endpoint para fazer logout (5º endpoint)",
+        "description": "Este endpoint permite se deslogar da conta.",
+        "parameters": [
+          {
+            "name": "Authorization",
+            "in": "header",
+            "description": "Bearer token. (Example: \"Authorization: Bearer {token}\")",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "client_id",
+            "in": "header",
+            "description": "ClientId do cliente BaaS.",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "access_token",
+            "in": "header",
+            "description": "AccessToken gerado.",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "Sucesso"
+          },
+          "401": {
+            "description": "Não autorizado"
+          },
+          "500": {
+            "description": "Erro Inesperado",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              },
+              "application/jwe": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/public/authentications/paas": {
+      "post": {
+        "tags": [
+          "Autenticação"
+        ],
+        "summary": "Endpoint para fazer login PaaS (4º endpoint)",
+        "description": "Este endpoint permite se logar para as APIs PaaS.",
+        "parameters": [
+          {
+            "name": "Authorization",
+            "in": "header",
+            "description": "Bearer token. (Example: \"Authorization: Bearer {token}\")",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "client_id",
+            "in": "header",
+            "description": "ClientId do cliente BaaS.",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "access_token",
+            "in": "header",
+            "description": "AccessToken gerado.",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "description": "",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/PaaSLoginCommand"
+              }
+            },
+            "application/jwe": {
+              "schema": {
+                "$ref": "#/components/schemas/PaaSLoginCommand"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Sucesso",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/LoginResponse"
+                }
+              },
+              "application/jwe": {
+                "schema": {
+                  "$ref": "#/components/schemas/LoginResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Requisição Ruim",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/ErrorResponse"
+                  }
+                }
+              },
+              "application/jwe": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/ErrorResponse"
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Erro Inesperado",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              },
+              "application/jwe": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/public/authentications/anonymous": {
+      "post": {
+        "tags": [
+          "Autenticação"
+        ],
+        "summary": "Endpoint para gerar o token anônimo (1º endpoint)",
+        "description": "Este endpoint permite gerar o token anônimo de acesso.",
+        "parameters": [
+          {
+            "name": "client_id",
+            "in": "header",
+            "description": "ClientId do cliente BaaS.",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "access_token",
+            "in": "header",
+            "description": "AccessToken gerado.",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "scope",
+            "in": "header",
+            "description": "Escopo de acesso (1 - BaaS, 2 - PaaS).",
+            "required": true,
+            "schema": {
+              "type": "integer"
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Sucesso",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/TokensResponse"
+                }
+              },
+              "application/jwe": {
+                "schema": {
+                  "$ref": "#/components/schemas/TokensResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Requisição Ruim",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/ErrorResponse"
+                  }
+                }
+              },
+              "application/jwe": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/ErrorResponse"
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Erro Inesperado",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              },
+              "application/jwe": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/public/forgot-passwords": {
+      "patch": {
+        "tags": [
+          "Esqueci Minha Senha"
+        ],
+        "summary": "Endpoint para cadastrar nova senha (5º endpoint)",
+        "description": "Este endpoint permite cadastrar a nova senha.",
+        "parameters": [
+          {
+            "name": "Authorization",
+            "in": "header",
+            "description": "Bearer token. (Example: \"Authorization: Bearer {token}\")",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "client_id",
+            "in": "header",
+            "description": "ClientId do cliente BaaS.",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "access_token",
+            "in": "header",
+            "description": "AccessToken gerado.",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "description": "",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ForgotPasswordChangePasswordCommand"
+              }
+            }
+          }
+        },
+        "responses": {
+          "204": {
+            "description": "Sucesso"
+          },
+          "400": {
+            "description": "Requisição Ruim",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/ErrorResponse"
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Erro Inesperado",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "Esqueci Minha Senha"
+        ],
+        "summary": "Endpoint para iniciar o fluxo do esqueci minha senha (1º endpoint)",
+        "description": "Este endpoint permite iniciar o fluxo do esqueci minha senha.",
+        "parameters": [
+          {
+            "name": "Authorization",
+            "in": "header",
+            "description": "Bearer token. (Example: \"Authorization: Bearer {token}\")",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "client_id",
+            "in": "header",
+            "description": "ClientId do cliente BaaS.",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "access_token",
+            "in": "header",
+            "description": "AccessToken gerado.",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "description": "",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ForgotPasswordCommand"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Sucesso",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ForgotPasswordResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Requisição Ruim",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/ErrorResponse"
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Erro Inesperado",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/public/forgot-passwords/answers": {
+      "post": {
+        "tags": [
+          "Esqueci Minha Senha"
+        ],
+        "summary": "Endpoint para enviar as respostas no fluxo do esqueci minha senha (2º endpoint)",
+        "description": "Este endpoint permite enviar as respostas das perguntas.",
+        "parameters": [
+          {
+            "name": "Authorization",
+            "in": "header",
+            "description": "Bearer token. (Example: \"Authorization: Bearer {token}\")",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "client_id",
+            "in": "header",
+            "description": "ClientId do cliente BaaS.",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "access_token",
+            "in": "header",
+            "description": "AccessToken gerado.",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "description": "",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ForgotPasswordAnswersCommand"
+              }
+            }
+          }
+        },
+        "responses": {
+          "204": {
+            "description": "Sucesso"
+          },
+          "400": {
+            "description": "Requisição Ruim",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/ErrorResponse"
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Erro Inesperado",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/public/forgot-passwords/otps": {
+      "post": {
+        "tags": [
+          "Esqueci Minha Senha"
+        ],
+        "summary": "Endpoint para solicitar o OTP no fluxo do esqueci minha senha (3º endpoint)",
+        "description": "Este endpoint permite solicitar o OTP.",
+        "parameters": [
+          {
+            "name": "Authorization",
+            "in": "header",
+            "description": "Bearer token. (Example: \"Authorization: Bearer {token}\")",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "client_id",
+            "in": "header",
+            "description": "ClientId do cliente BaaS.",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "access_token",
+            "in": "header",
+            "description": "AccessToken gerado.",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "description": "",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ForgotPasswordOtpCommand"
+              }
+            }
+          }
+        },
+        "responses": {
+          "204": {
+            "description": "Sucesso"
+          },
+          "400": {
+            "description": "Requisição Ruim",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/ErrorResponse"
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Erro Inesperado",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/public/forgot-passwords/otps/validations": {
+      "post": {
+        "tags": [
+          "Esqueci Minha Senha"
+        ],
+        "summary": "Endpoint para validar o OTP no fluxo do esqueci minha senha (4º endpoint)",
+        "description": "Este endpoint permite validar o OTP recebido.",
+        "parameters": [
+          {
+            "name": "Authorization",
+            "in": "header",
+            "description": "Bearer token. (Example: \"Authorization: Bearer {token}\")",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "client_id",
+            "in": "header",
+            "description": "ClientId do cliente BaaS.",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "access_token",
+            "in": "header",
+            "description": "AccessToken gerado.",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "description": "",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ForgotPasswordOtpValidationCommand"
+              }
+            }
+          }
+        },
+        "responses": {
+          "204": {
+            "description": "Sucesso"
+          },
+          "400": {
+            "description": "Requisição Ruim",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/ErrorResponse"
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Erro Inesperado",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "BaaSLoginCommand": {
+        "required": [
+          "accessToken",
+          "accountNumber",
+          "agency",
+          "document",
+          "loginType",
+          "mapId",
+          "password"
+        ],
+        "type": "object",
+        "properties": {
+          "agency": {
+            "minLength": 1,
+            "type": "string",
+            "description": "Número da agência."
+          },
+          "mapId": {
+            "type": "integer",
+            "description": "Id do mapa da senha",
+            "format": "int32"
+          },
+          "accountNumber": {
+            "minLength": 1,
+            "type": "string",
+            "description": "Número da conta."
+          },
+          "password": {
+            "minLength": 1,
+            "type": "string",
+            "description": "Senha de acesso (Senha deve estar criptografada com a chave publica do endpoint \"/encryption-tokens\")."
+          },
+          "document": {
+            "minLength": 1,
+            "type": "string",
+            "description": "Documento do cliente (Documento deve estar criptografado com a chave publica do endpoint \"/encryption-tokens\")."
+          },
+          "accessToken": {
+            "minLength": 1,
+            "type": "string",
+            "description": "Token de acesso do endpoint \"/encryption-tokens\"."
+          },
+          "loginType": {
+            "minLength": 1,
+            "type": "string",
+            "description": "O tipo de login (valor deve ser PF)."
+          },
+          "device": {
+            "$ref": "#/components/schemas/LoginDeviceCommand"
+          }
+        },
+        "additionalProperties": false
+      },
+      "EncryptionTokensResponse": {
+        "type": "object",
+        "properties": {
+          "token": {
+            "type": "string",
+            "description": "Token de acesso do Core Banking.",
+            "nullable": true
+          },
+          "publicKey": {
+            "type": "string",
+            "description": "Chave publica do Core Banking de criptografia.",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "ErrorResponse": {
+        "type": "object",
+        "properties": {
+          "code": {
+            "type": "integer",
+            "description": "Código do erro",
+            "format": "int32"
+          },
+          "title": {
+            "type": "string",
+            "description": "Título do erro",
+            "nullable": true
+          },
+          "detail": {
+            "type": "string",
+            "description": "Detalhe do erro",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "ForgotPasswordAnswerCommand": {
+        "required": [
+          "answer",
+          "type"
+        ],
+        "type": "object",
+        "properties": {
+          "type": {
+            "$ref": "#/components/schemas/ForgotPasswordQuestionType"
+          },
+          "answer": {
+            "minLength": 1,
+            "type": "string",
+            "description": "A resposta."
+          }
+        },
+        "additionalProperties": false
+      },
+      "ForgotPasswordAnswersCommand": {
+        "required": [
+          "answers",
+          "document"
+        ],
+        "type": "object",
+        "properties": {
+          "document": {
+            "minLength": 1,
+            "type": "string",
+            "description": "Documento do cliente."
+          },
+          "answers": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ForgotPasswordAnswerCommand"
+            },
+            "description": "Lista de respostas.\r\n<p><strong>* Deve se mandar as duas respostas de uma vez.</strong><br/></p>"
+          }
+        },
+        "additionalProperties": false
+      },
+      "ForgotPasswordChangePasswordCommand": {
+        "required": [
+          "document",
+          "password"
+        ],
+        "type": "object",
+        "properties": {
+          "document": {
+            "minLength": 1,
+            "type": "string",
+            "description": "Documento do cliente."
+          },
+          "password": {
+            "minLength": 1,
+            "type": "string",
+            "description": "Senha nova (6 dígitos)."
+          }
+        },
+        "additionalProperties": false
+      },
+      "ForgotPasswordCommand": {
+        "required": [
+          "document",
+          "passwordType"
+        ],
+        "type": "object",
+        "properties": {
+          "document": {
+            "minLength": 1,
+            "type": "string",
+            "description": "Documento do cliente."
+          },
+          "passwordType": {
+            "$ref": "#/components/schemas/PasswordType"
+          }
+        },
+        "additionalProperties": false
+      },
+      "ForgotPasswordOtpCommand": {
+        "required": [
+          "document"
+        ],
+        "type": "object",
+        "properties": {
+          "document": {
+            "minLength": 1,
+            "type": "string",
+            "description": "Documento do cliente."
+          }
+        },
+        "additionalProperties": false
+      },
+      "ForgotPasswordOtpValidationCommand": {
+        "required": [
+          "document",
+          "otp"
+        ],
+        "type": "object",
+        "properties": {
+          "document": {
+            "minLength": 1,
+            "type": "string",
+            "description": "Documento do cliente."
+          },
+          "otp": {
+            "minLength": 1,
+            "type": "string",
+            "description": "Código recebido por SMS."
+          }
+        },
+        "additionalProperties": false
+      },
+      "ForgotPasswordQuestionType": {
+        "enum": [
+          "1 - Document",
+          "2 - MotherName"
+        ],
+        "type": "integer",
+        "format": "int32"
+      },
+      "ForgotPasswordQuestionsResponse": {
+        "type": "object",
+        "properties": {
+          "type": {
+            "$ref": "#/components/schemas/ForgotPasswordQuestionType"
+          },
+          "description": {
+            "type": "string",
+            "description": "A questão.",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "ForgotPasswordResponse": {
+        "type": "object",
+        "properties": {
+          "document": {
+            "type": "string",
+            "description": "Documento do cliente.",
+            "nullable": true
+          },
+          "questions": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ForgotPasswordQuestionsResponse"
+            },
+            "description": "Lista de questões para responder.",
+            "nullable": true
+          },
+          "status": {
+            "$ref": "#/components/schemas/ForgotPasswordStatus"
+          }
+        },
+        "additionalProperties": false
+      },
+      "ForgotPasswordStatus": {
+        "enum": [
+          "1 - Started",
+          "2 - QuestionsAnswered",
+          "3 - SentOtp",
+          "4 - ValidatedOtp"
+        ],
+        "type": "integer",
+        "format": "int32"
+      },
+      "LoginDeviceCommand": {
+        "required": [
+          "digestDeviceId",
+          "id"
+        ],
+        "type": "object",
+        "properties": {
+          "id": {
+            "minLength": 1,
+            "type": "string",
+            "description": "Id do dispositivo (IMEI para telefone)."
+          },
+          "digestDeviceId": {
+            "minLength": 1,
+            "type": "string",
+            "description": "Um hash do dispositivo. \r\n<remarks><p> <strong>* Regras de Geração do DigestDiviceId </strong><br/></p>   \r\n<p>Um hash MD5 convertido para formato GUID da string \"ClientId:Imei\"</p></remarks>"
+          },
+          "ipAddressV4": {
+            "type": "string",
+            "description": "IPV4 do dispositivo.",
+            "nullable": true
+          },
+          "ipAddressV6": {
+            "type": "string",
+            "description": "IPV6 do dispositivo.",
+            "nullable": true
+          },
+          "rootCheck": {
+            "type": "boolean",
+            "description": "Se o telefone é rootado."
+          },
+          "userAgent": {
+            "type": "string",
+            "description": "O agente do dispositivo.",
+            "nullable": true
+          },
+          "location": {
+            "$ref": "#/components/schemas/LoginDeviceLocationCommand"
+          }
+        },
+        "additionalProperties": false
+      },
+      "LoginDeviceLocationCommand": {
+        "type": "object",
+        "properties": {
+          "latitude": {
+            "type": "number",
+            "description": "Latitude da localização.",
+            "format": "double"
+          },
+          "longitude": {
+            "type": "number",
+            "description": "Longitude da localização.",
+            "format": "double"
+          }
+        },
+        "additionalProperties": false
+      },
+      "LoginResponse": {
+        "type": "object",
+        "properties": {
+          "jwt": {
+            "type": "string",
+            "description": "Jwt de acesso.",
+            "nullable": true
+          },
+          "expireIn": {
+            "type": "integer",
+            "description": "Tempo de expiração do Jwt.",
+            "format": "int32"
+          },
+          "accountId": {
+            "type": "string",
+            "description": "Id da conta.",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "PaaSLoginCommand": {
+        "required": [
+          "accessToken",
+          "accountNumber",
+          "agency",
+          "document",
+          "loginType",
+          "mapId",
+          "password"
+        ],
+        "type": "object",
+        "properties": {
+          "agency": {
+            "minLength": 1,
+            "type": "string",
+            "description": "Número da agência."
+          },
+          "mapId": {
+            "type": "integer",
+            "description": "Id do mapa da senha",
+            "format": "int32"
+          },
+          "accountNumber": {
+            "minLength": 1,
+            "type": "string",
+            "description": "Número da conta."
+          },
+          "password": {
+            "minLength": 1,
+            "type": "string",
+            "description": "Senha de acesso (Senha deve estar criptografada com a chave publica do endpoint \"/encryption-tokens\")."
+          },
+          "document": {
+            "minLength": 1,
+            "type": "string",
+            "description": "Documento do cliente (Documento deve estar criptografado com a chave publica do endpoint \"/encryption-tokens\")."
+          },
+          "accessToken": {
+            "minLength": 1,
+            "type": "string",
+            "description": "Token de acesso do endpoint \"/encryption-tokens\"."
+          },
+          "loginType": {
+            "minLength": 1,
+            "type": "string",
+            "description": "O tipo de login (valor deve ser PF)."
+          }
+        },
+        "additionalProperties": false
+      },
+      "PasswordMapResponse": {
+        "type": "object",
+        "properties": {
+          "index": {
+            "type": "integer",
+            "description": "Id do mapa de senha.",
+            "format": "int32"
+          },
+          "mapList": {
+            "type": "array",
+            "items": {
+              "type": "array",
+              "items": {
+                "type": "integer",
+                "format": "int32"
+              }
+            },
+            "description": "Mapa da senha.",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "PasswordType": {
+        "enum": [
+          "1 - Movement",
+          "2 - Login"
+        ],
+        "type": "integer",
+        "format": "int32"
+      },
+      "TokensResponse": {
+        "type": "object",
+        "properties": {
+          "jwt": {
+            "type": "string",
+            "description": "Token de acesso das APIs.",
+            "nullable": true
+          },
+          "expireIn": {
+            "type": "integer",
+            "description": "Tempo de expiração do Jwt.",
+            "format": "int32"
+          }
+        },
+        "additionalProperties": false
+      }
+    }
+  }
+}
