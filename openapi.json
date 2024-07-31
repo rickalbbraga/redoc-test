@@ -6,6 +6,20 @@
     "version": "1.0"
   },
   "paths": {
+    "/v1/public/redoc/tests": {
+      "get": {
+        "tags":[
+          "Redoc"
+        ],
+        "summary": "Testes de Documenta&ccedil;&atilde;o",
+        "description": "Testes de Documenta&ccedil;&atilde;o",
+        "responses": {
+          "204": {
+            "description": "Sucesso"
+          }
+        }
+      }
+    },
     "/v1/public/authentications/encryption-tokens": {
       "get": {
         "tags": [
