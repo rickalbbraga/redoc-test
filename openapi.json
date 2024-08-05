@@ -23,6 +23,18 @@
             "description": "Sucesso"
           }
         }
+      },
+      "post": {
+        "tags":[
+          "Redoc"
+        ],
+        "summary": "Testes de Documenta&ccedil;&atilde;o",
+        "description": "Testes de Documenta&ccedil;&atilde;o",
+        "responses": {
+          "201": {
+            "description": "Criado"
+          }
+        }
       }
     },
     "/v1/public/authentications/encryption-tokens": {
